@@ -1,33 +1,37 @@
 package timer
 
 import (
-	"log"
+	"encoding/csv"
 	"time"
 	"wifi-connection-analyzer/pkg/network"
+	"wifi-connection-analyzer/pkg/types"
 )
 
 var count = 0
 
-func networkJob() {
+func networkJob(healthCheckEndpoint string) string {
 	count++
-	isConnected := network.InternetIsConnected()
+	isConnected := network.InternetIsConnected(healthCheckEndpoint)
 	var msg string
 	if isConnected {
 		msg = "Network is connected"
 	} else {
 		msg = "Network is NOT connected"
 	}
-	log.Println(msg)
+	return msg
 }
 
-func StartNetworkCheckTimer(intervalSecs int) {
-	ticker := time.NewTicker(time.Duration(intervalSecs) * time.Second)
+func StartNetworkDaemon(options types.Options, writer *csv.Writer) {
+	ticker := time.NewTicker(time.Duration(options.IntervalSeconds) * time.Second)
 	quit := make(chan struct{})
 	go func() {
 		for {
 			select {
 				case <- ticker.C: {
-					networkJob()
+					msg := networkJob(options.HealthCheckEndpoint)
+					_ = writer.WriteAll([][]string{
+						{time.Now().Format(time.RFC1123), msg},
+					})
 				}
 				case <- quit: {
 					ticker.Stop()

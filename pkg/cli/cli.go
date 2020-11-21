@@ -7,7 +7,7 @@ import (
 	"wifi-connection-analyzer/pkg/types"
 )
 
-func GetCLIArgs() (options types.Options, error error) {
+func GetCLIArgs() (types.Options, error) {
 	// check for length of args
 	if len(os.Args) < 2 {
 		return types.Options{}, errors.New("an output filepath argument is required")
