@@ -42,9 +42,9 @@ func main() {
 		PidFilePerm: 0644,
 		LogFileName: "analyzer.log",
 		LogFilePerm: 0640,
-		WorkDir: "./",
-		Umask: 027,
-		Args: []string{},
+		WorkDir:     "./",
+		Umask:       027,
+		Args:        []string{},
 	}
 	d, parseArgsErr := ctx.Reborn()
 	if parseArgsErr != nil {
