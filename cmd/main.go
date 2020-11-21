@@ -18,6 +18,7 @@ func main() {
 	if parseArgsErr != nil {
 		log.Fatal(parseArgsErr.Error())
 	}
+	log.Println("starting with args: ", args)
 
 	prefixedFileLocation := stringOps.GetPrefixedFileLocation(args.FileLocation, time.Now().Format(time.RFC3339))
 
@@ -55,7 +56,6 @@ func main() {
 	}
 	defer ctx.Release()
 
-	log.Println("-----------------")
 	log.Println("daemon started")
 
 	wg := &sync.WaitGroup{}

@@ -1,2 +1,2 @@
 go build ./cmd/main.go
-./main ~/analysis.csv
+./main -i 60 ~/analysis.csv

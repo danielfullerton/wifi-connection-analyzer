@@ -2,6 +2,7 @@ package timer
 
 import (
 	"encoding/csv"
+	"log"
 	"time"
 	"wifi-connection-analyzer/pkg/network"
 	"wifi-connection-analyzer/pkg/types"
@@ -32,6 +33,7 @@ func StartNetworkDaemon(options types.Options, writer *csv.Writer) {
 					_ = writer.WriteAll([][]string{
 						{time.Now().Format(time.RFC1123), msg},
 					})
+					log.Println("networkJob ran successfully")
 				}
 				case <- quit: {
 					ticker.Stop()
